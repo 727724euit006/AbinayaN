@@ -1,0 +1,24 @@
+package com.examly.springapp.controller;
+import com.examly.springapp.model.PurchaseOrderItem;
+import com.examly.springapp.service.PurchaseOrderItemService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/purchase-order-items")
+public class PurchaseOrderItemController {
+    @Autowired private PurchaseOrderItemService service;
+
+    @PostMapping
+    public ResponseEntity<PurchaseOrderItem> add(@RequestBody PurchaseOrderItem p) {
+        return new ResponseEntity<>(service.addPurchaseOrderItem(p), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<List<PurchaseOrderItem>> getByOrder(@PathVariable Long orderId) {
+        return ResponseEntity.ok(service.getItemsByOrderId(orderId));
+    }
+}
